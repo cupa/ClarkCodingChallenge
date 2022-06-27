@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Contacts Page";
+}
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", DocumentOnReady);
+
+        function DocumentOnReady() {
+            const errorMessageContainer = document.getElementById("ErrorMessage");
+            const errorMessages = document.getElementsByClassName("error-message");
+            function HideErrors() {
+                errorMessageContainer.style.display = "none";
+                Array.from(errorMessages).forEach(m => m.style.display = "none");
+            }
+            HideErrors();
+
+            const form = document.getElementsByName("AddContacts")[0];
+            form.onsubmit = function (event) {
+                HideErrors();
+                const lastname = document.getElementsByName("LastName")[0];
+                const firstname = document.getElementsByName("FirstName")[0];
+                const email = document.getElementsByName("Email")[0];
+
+                let errors = [];
+                if (!lastname.value) {
+                    errors.push("LastError");
+                }
+                if (!firstname.value) {
+                    errors.push("FirstError");
+                }
+                if (!email.value || !ValidEmail(email.value)) {
+                    errors.push("EmailError");
+                }
+                    
+                if (errors.length) {
+                    event.preventDefault();
+                    errorMessageContainer.style.display = "block";
+                    errors.forEach(e => document.getElementById(e).style.display = "block");
+                }
+            };
+        }
+        function ValidEmail(email)  {
+          return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@@"]+(\.[^<>()[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            ) != null;
+        };
+    </script>
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <form action="/Contacts/Add" method="post" name="AddContacts">
+        <label>Last Name:</label>
+        <input type="text" name="LastName" placeholder="Bob"/>
+        <label>First Name:</label>
+        <input type="text" name="FirstName" placeholder="Smith" />
+        <label>Email:</label>
+        <input type="text" name="Email" placeholder="example@example.com"/>
+        <input type="Submit" value="Submit" />
+    </form>
+    <ul id="ErrorMessage" style="display:none;">
+        <li class="error-message" id="LastError">Last Name is required</li>
+        <li class="error-message" id="FirstError">First Name is required</li>
+        <li class="error-message" id="EmailError">Please enter a valid email address</li>
+    </ul>
+</div>

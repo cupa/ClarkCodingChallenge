@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Contacts Page";
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <form action="/Contacts/Add" method="post" name="AddContacts">
+        <label>Last Name:</label>
+        <input type="text" name="LastName" required placeholder="Bob"/>
+        <label>First Name:</label>
+        <input type="text" name="FirstName" required placeholder="Smith" />
+        <label>Email:</label>
+        <input type="email" name="Email" required placeholder="example@example.com"/>
+        <input type="Submit" value="Submit" />
+    </form>
+</div>
